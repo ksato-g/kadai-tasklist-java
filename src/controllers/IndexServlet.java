@@ -35,6 +35,10 @@ public class IndexServlet extends HttpServlet {
 	    EntityManager em = DBUtil.createEntityManager();
 	    List<Task> tasks = em.createNamedQuery("getAllTasks", Task.class).getResultList();
 	    request.setAttribute("tasks", tasks);
+	    if(request.getSession().getAttribute("flush") != null) {
+	        request.setAttribute("flush", request.getSession().getAttribute("flush"));
+	        request.getSession().removeAttribute("flush");
+	    }
 	    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp");
 	    rd.forward(request, response);
 	}
